@@ -48,7 +48,7 @@ class ContainerCollection(object):
         moves: List[Move] = []
         for x in range(len(self)):
             # Skip fully solved containers
-            if self.data[x].is_solved or (
+            if self.data[x].is_solved or self.data[x].is_empty or (
                 self.data[x].is_unique and len(self.data[x]) > 2
             ):
                 continue
