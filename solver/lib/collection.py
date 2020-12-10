@@ -12,6 +12,7 @@ class ContainerCollection(object):
     def __init__(self, data: Union[ContainerCollection, List[Container]]):
         """Construct a new collection from `data`."""
         self.__unique_set: Optional[set] = None
+        self.__possible_moves: Optional[List[Move]] = None
         if isinstance(data, list):
             self.data = tuple(Container(item) for item in data)
         elif isinstance(data, ContainerCollection):
@@ -28,12 +29,19 @@ class ContainerCollection(object):
         return all([container.is_solved for container in self.data])
 
     # work out all possible next moves:
+
     def get_moves(self) -> List[Move]:
         """Get a list of possible moves.
 
         Each move is a possible way to move a colour between two indexes
         in the collection.
+        Note: this function uses a cached representation of the collection for
+        performance and if any item within the collection is modified may not
+        be correct.
         """
+        # check for if this is cached
+        if self.__possible_moves is not None:
+            return self.__possible_moves
         moves: List[Move] = []
         for x in range(len(self)):
             # Skip fully solved containers
@@ -54,6 +62,7 @@ class ContainerCollection(object):
                 moves.append(move)
                 if self.data[move.dest].is_empty:
                     used_in_empty = True
+        self.__possible_moves = moves
         return moves
 
     def is_valid(self, move: Move) -> bool:
@@ -99,6 +108,13 @@ class ContainerCollection(object):
         return len(self.data)
 
     def _unique_set(self):
+        """Get the set representing the unique containers in the collection.
+
+        This set is cached to improve performance of comparing collections
+        during the solving process and therefore is not guaranteed to be
+        representative of the collection if container is directly modified
+        rather than using the `after` method.
+        """
         if self.__unique_set is None:
             self.__unique_set = set(container.data for container in self.data)
         return self.__unique_set
@@ -107,6 +123,9 @@ class ContainerCollection(object):
         """Check if this collection is the same as `other`.
 
         Compares the contents of each container but ignores the order.
+        Note: this function uses a cached representation of the collection for
+        performance and if any item within the collection is modified may not
+        be correct.
         """
         if isinstance(other, ContainerCollection):
             return self._unique_set() == other._unique_set()
