@@ -1,10 +1,18 @@
 """Implementation of search algorithms."""
 import logging
-from typing import List, Optional
-from collections import namedtuple
-from lib.collection import ContainerCollection
+from typing import List, Optional, Tuple
+from dataclasses import dataclass
 
-Option = namedtuple("Option", ["collection", "moves"])
+from lib.collection import ContainerCollection
+from lib.move import Move
+
+
+@dataclass
+class Option:
+    """Represents an option in the graph of possible games."""
+
+    collection: ContainerCollection
+    moves: Tuple[Move, ...]
 
 
 def bfs(root: ContainerCollection) -> Optional[Option]:

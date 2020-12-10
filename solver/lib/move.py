@@ -1,10 +1,14 @@
 """Represent a single move between to containers."""
 from __future__ import annotations
-from collections import namedtuple
+from dataclasses import dataclass
 
 
-class Move(namedtuple("Move", ["src", "dest"])):
-    """Tuple representing a single move in the game."""
+@dataclass
+class Move:
+    """Represents a move between two containers in the game."""
+
+    src: int
+    dest: int
 
     def reverse(self) -> Move:
         """Get the reverse of this move."""
