@@ -4,7 +4,7 @@ import levels
 from lib.collection import ContainerCollection
 from lib.search import Option, bfs
 
-start: ContainerCollection = ContainerCollection(levels.stats["start"])
+start: ContainerCollection = ContainerCollection(levels.stats)
 print(start)
 
 result: Optional[Option] = bfs(start)
