@@ -9,7 +9,10 @@ from lib.container import Container
 class ContainerCollection(object):
     """Collection of containers."""
 
-    def __init__(self, data: Union[ContainerCollection, List[Container]]):
+    def __init__(
+        self,
+        data: Union[ContainerCollection, List[Container], List[List[str]]],
+    ):
         """Construct a new collection from `data`."""
         self.__unique_set: Optional[set] = None
         self.__possible_moves: Optional[List[Move]] = None
