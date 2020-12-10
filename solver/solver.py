@@ -1,13 +1,17 @@
 """Solve the water sort puzzel."""
+from typing import Optional
 import levels
 from lib.collection import ContainerCollection
 from lib.search import Option, bfs
 
-start = ContainerCollection(levels.stats["start"])
+start: ContainerCollection = ContainerCollection(levels.stats["start"])
 print(start)
 
-result: Option = bfs(start)
+result: Optional[Option] = bfs(start)
 
-print("solved in", len(result.moves), "moves")
-print(result.collection)
-print(result.moves)
+if result is None:
+    print("Cannot be solved :(")
+else:
+    print("solved in", len(result.moves), "moves")
+    print(result.collection)
+    print(result.moves)
