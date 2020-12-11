@@ -5,3 +5,4 @@ pylint
 rope
 pydocstyle
 pytest
+pytest-cov
