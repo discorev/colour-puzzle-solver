@@ -15,7 +15,7 @@ class Item(object):
             if colour in dir(Colour):
                 self.colour = Colour[colour]
             else:
-                self.colour == Colour(colour)
+                self.colour = Colour(colour)
 
     def __eq__(self, other):
         """Check if this item's colour matches other."""
