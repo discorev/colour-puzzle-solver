@@ -4,3 +4,4 @@ mypy
 pylint
 rope
 pydocstyle
+pytest
