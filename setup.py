@@ -31,7 +31,7 @@ setup(
     # Support Python 3.7 or greater
     python_requires=">=3.7, <=4.0, !=4.0",
     entry_points={"console_scripts": ["solver=solver.cli.main:cli"]},
-    install_requires=read_requirements("requirements.txt"),
-    # extras_require={"dev": read_requirements("dev.txt")},
+    install_requires=read_requirements("requirements/base.txt"),
+    extras_require={"dev": read_requirements("requirements/dev.txt")},
     include_package_data=True,
 )
