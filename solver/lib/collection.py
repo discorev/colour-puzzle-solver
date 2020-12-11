@@ -2,8 +2,8 @@
 from __future__ import annotations
 from typing import Union, List, Optional
 
-from lib.move import Move
-from lib.container import Container
+from solver.lib.move import Move
+from solver.lib.container import Container
 
 
 class ContainerCollection(object):
@@ -48,8 +48,10 @@ class ContainerCollection(object):
         moves: List[Move] = []
         for x in range(len(self)):
             # Skip fully solved containers
-            if self.data[x].is_solved or self.data[x].is_empty or (
-                self.data[x].is_unique and len(self.data[x]) > 2
+            if (
+                self.data[x].is_solved
+                or self.data[x].is_empty
+                or (self.data[x].is_unique and len(self.data[x]) > 2)
             ):
                 continue
             used_in_empty = False

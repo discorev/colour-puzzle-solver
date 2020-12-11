@@ -1,7 +1,7 @@
 """Module representing a single coloured item."""
 from typing import Union
 
-from lib.colour import Colour
+from solver.lib.colour import Colour
 
 
 class Item(object):

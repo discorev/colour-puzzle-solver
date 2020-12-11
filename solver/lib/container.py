@@ -2,7 +2,7 @@
 from __future__ import annotations
 from typing import Optional, Sequence, Tuple, Union, cast
 
-from lib.item import Item
+from solver.lib.item import Item
 
 
 class Container(object):

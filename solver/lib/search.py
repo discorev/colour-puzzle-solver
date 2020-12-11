@@ -3,8 +3,8 @@ import logging
 from typing import List, Optional, Tuple
 from dataclasses import dataclass
 
-from lib.collection import ContainerCollection
-from lib.move import Move
+from solver.lib.collection import ContainerCollection
+from solver.lib.move import Move
 
 
 @dataclass
