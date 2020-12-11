@@ -40,7 +40,7 @@ class Item(object):
 
     def __repr__(self):
         """Get the colour's name."""
-        return "'" + self.colour.name + "'"
+        return f"'{self.colour.name}'"
 
     def __hash__(self):
         """Get the hash of the colour of this item."""
