@@ -1,6 +1,6 @@
 """A container is a vessle with a limited capacity that holds items."""
 from __future__ import annotations
-from typing import Optional, Sequence, Tuple, Union, cast
+from typing import cast, Any, Optional, Sequence, Tuple, Union
 
 from solver.lib.item import Item
 
@@ -134,6 +134,27 @@ class Container(object):
         self.data = tuple(data)
         return True
 
+    def copy(self) -> Container:
+        """Create a new container with the same data.
+
+        The new container can be mutated using the `add` function
+        without affecting the original container.
+        """
+        return Container(self)
+
+    def __eq__(self, other: Any) -> bool:
+        """Check if this container is equal to other."""
+        if isinstance(other, Container):
+            return self.data == other.data
+        elif isinstance(other, Sequence):
+            return self.data == other
+        else:
+            return False
+
+    def __ne__(self, other: Any) -> bool:
+        """Check if this container is not equal to other."""
+        return not self.__eq__(other)
+
     def __str__(self) -> str:
         """Get the string representation of this container."""
         content = [str(content) for content in self.data]
@@ -149,14 +170,6 @@ class Container(object):
     def __len__(self) -> int:
         """Return the number of items contained."""
         return len(self.data)
-
-    def copy(self) -> Container:
-        """Create a new container with the same data.
-
-        The new container can be mutated using the `add` function
-        without affecting the original container.
-        """
-        return Container(self)
 
     def __getitem__(self, idx):
         """Get the `item` at `index`."""
