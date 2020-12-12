@@ -91,3 +91,6 @@ class TestItem(TestCase):
             Item(Colour.BLUE).__ne__("\x1b[31m"),
             "Items of the same colour should match",
         )
+        self.assertFalse(
+            Item(Colour.RED).__eq__(object), "Item does not equal a non-item"
+        )
