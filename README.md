@@ -17,12 +17,21 @@ There is no time limit.
 * If there are multiple concurrent items of the same colour in the source contianer, all will be transfered to the destination container until it reaches it's maximum capacity.
 
 ## How does the solver work
-Given a starting pattern the solver performs a [Breadth first search](https://en.wikipedia.org/wiki/Breadth-first_search) over the graph of potential next moves, until the shortest path to a winning move is found.
+Given a starting pattern the solver can perform either a [Breadth-first search](https://en.wikipedia.org/wiki/Breadth-first_search) or a [Depth-first search](https://en.wikipedia.org/wiki/Depth-first_search).
 
-The starting pattern is evaluated to find all possible moves and this forms the start of the graph. Then recursively, each possible move is evaluated to get the next layer deep in the graph.
+Once a valid solution is found, the search is completed and the final grid and all the moves taken to get there are output.
 
-Once a valid solution is found, the search is completed.
+The starting pattern is provided as a JSON file. Some samples can be found in the levels folder.
 
-Currently levels are hard coded into levels.py until a simple representation that allows for easily loading a puzzle configuration is added
+### Breadth-First Search
+The breadth first algorithm will always find the shortest path to a solution, sacraficing the time to find a solution in favour of ensuring the solution is optimal.
+
+The starting pattern is evaluated to find all possible moves and this forms a queue of next patterns. Then each pattern in the queue is evaluted one-by-one, finding all possible moves that have not already been visited and placing them into the queue. This is repeated until the queue is empty or a solution is found.
+
+### Depth-First Search
+The depth first algorithm will find a solution as quickly as possible. The trade-off here is that the solution may not be an optional solution, but it is found far quicker.
+
+All possible moves are evaluted recursively following down the tree as quickly as possible until a solution is found.
+
 
 **NOTICE:** This project is for educational purposes only and bears no affiliation with the linked games above.
