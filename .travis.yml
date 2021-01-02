@@ -10,7 +10,7 @@ install:
   - pip install ".[dev]"
 # command to run tests
 script:
-  - pytest
+  - pytest --cov solver
 # submit coverage
 after_success:
   - codecov
