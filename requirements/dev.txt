@@ -6,3 +6,4 @@ rope
 pydocstyle
 pytest
 pytest-cov
+codecov
