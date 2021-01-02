@@ -1,11 +1,12 @@
 """A container is a vessle with a limited capacity that holds items."""
 from __future__ import annotations
+import collections.abc
 from typing import cast, Any, Optional, Sequence, Tuple, Union
 
 from solver.lib.item import Item
 
 
-class Container(object):
+class Container:
     """Represents a capacity limited container in the game."""
 
     def __init__(
@@ -18,10 +19,7 @@ class Container(object):
         # Ensure this is only ever set to the maximum size
         self.__data: Tuple[Item, ...]
         if isinstance(initial_content, Container):
-            if initial_content.capacity == capacity:
-                self.__data = initial_content.data
-            else:
-                self.__data = initial_content.data[:capacity]
+            self.__data = initial_content.data[:capacity]
         else:
             type_map = set(map(type, iter(initial_content)))
             if type_map == {Item}:
@@ -164,16 +162,16 @@ class Container(object):
                     break
         return True
 
-    def add(self, next: Item) -> bool:
+    def add(self, item: Item) -> bool:
         """Add `item` to this collection.
 
         Returns a boolean indiciating success.
         """
-        if not self.test(next):
+        if not self.test(item):
             return False
         # Convert data to a list and then back to a tuple to change it
         data = list(self.__data)
-        data.append(next)
+        data.append(item)
         self.__num_matching_head += 1
         self.__data = tuple(data)
         return True
@@ -190,10 +188,9 @@ class Container(object):
         """Check if this container is equal to other."""
         if isinstance(other, Container):
             return self.__data == other.data
-        elif isinstance(other, Sequence):
+        if isinstance(other, collections.abc.Sequence):
             return self.__data == other
-        else:
-            return False
+        return False
 
     def __ne__(self, other: Any) -> bool:
         """Check if this container is not equal to other."""
