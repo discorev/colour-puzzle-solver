@@ -1,7 +1,9 @@
 """Entry point for the CLI."""
-import click
 import logging
 from typing import Optional
+
+import click
+
 from solver.lib import json2collection
 from solver.lib.collection import ContainerCollection
 from solver.lib.search import Option, bfs, dfs
@@ -18,7 +20,13 @@ from solver.lib.search import Option, bfs, dfs
 @click.option("-v", "--verbose", is_flag=True)
 @click.option("--validate", is_flag=True)
 @click.argument("puzzle", type=click.File())
-def cli(puzzle=None, algorithm="BFS", verbose=False, validate=False):
+def cli(
+    puzzle=None,
+    algorithm="BFS",
+    verbose=False,
+    validate=False,
+    prog_name="solver",  # pylint: disable=W0613
+):
     """Solve PUZZLE.
 
     PUZZLE is the path to a json file describing the puzzle to solve.
