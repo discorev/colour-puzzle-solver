@@ -26,7 +26,7 @@ class TestMove(TestCase):
     def test_move_reverse(self):
         """Ensure that move reverse works."""
         move = Move(1, 2)
-        reversed = Move(2, 1)
+        reverse_move = Move(2, 1)
         self.assertEqual(
-            move.reverse(), reversed, "Move reversed should be (2, 1)"
+            move.reverse(), reverse_move, "Move reversed should be (2, 1)"
         )
