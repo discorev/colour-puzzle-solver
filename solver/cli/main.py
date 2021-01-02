@@ -1,8 +1,8 @@
 """Entry point for the CLI."""
 import click
-import json
 import logging
 from typing import Optional
+from solver.lib import json2collection
 from solver.lib.collection import ContainerCollection
 from solver.lib.search import Option, bfs, dfs
 
@@ -16,8 +16,9 @@ from solver.lib.search import Option, bfs, dfs
     show_default=True,
 )
 @click.option("-v", "--verbose", is_flag=True)
+@click.option("--validate", is_flag=True)
 @click.argument("puzzle", type=click.File())
-def cli(puzzle=None, algorithm="BFS", verbose=False):
+def cli(puzzle=None, algorithm="BFS", verbose=False, validate=False):
     """Solve PUZZLE.
 
     PUZZLE is the path to a json file describing the puzzle to solve.
@@ -27,20 +28,23 @@ def cli(puzzle=None, algorithm="BFS", verbose=False):
             format="%(levelname)s: %(message)s", level=logging.DEBUG
         )
 
-    start: ContainerCollection = ContainerCollection(json.load(puzzle))
-    print(start)
+    try:
+        start: ContainerCollection = json2collection.load(puzzle, validate)
+    except ValueError as err:
+        raise click.BadArgumentUsage("Invalid PUZZLE: " + str(err))
+
+    print(start, "\n")
 
     result: Optional[Option] = None
     if algorithm == "BFS":
-        print("Searching using Breadth-First Search")
+        print("Searching using Breadth-First Search\n")
         result = bfs(start)
     elif algorithm == "DFS":
-        print("Searching using Depth-First Search")
+        print("Searching using Depth-First Search\n")
         result = dfs(start)
 
     if result is None:
         print("Cannot be solved :(")
     else:
         print("solved in", len(result.moves), "moves")
-        print(result.collection)
-        print(result.moves)
+        print(result.collection, "\n\n", result.moves, sep="")
