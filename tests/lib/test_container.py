@@ -248,6 +248,64 @@ class TestContainer(TestCase):
             cont, copy, "The add should only affect one container"
         )
 
+    def test_container_num_at_head(self):
+        """Check the number of matches is initalised correctly."""
+        cont = Container(["GREEN", "RED", "GREEN"])
+        self.assertEqual(cont.num_matching_head, 1, "No consecutive colours")
+        cont = Container(["GREEN", "GREEN"])
+        self.assertEqual(cont.num_matching_head, 2, "Two consecutive colours")
+        cont = Container([])
+        self.assertEqual(cont.num_matching_head, 0, "Empty Container")
+
+    def test_container_num_at_head_after_add(self):
+        """Check the number of matches after an add is correct."""
+        cont = Container(["GREEN", "RED", "GREEN"])
+        self.assertEqual(cont.num_matching_head, 1, "No consecutive colours")
+        cont.add(Colour.GREEN)
+        self.assertEqual(
+            cont.num_matching_head, 2, "Two consecutive colours after add"
+        )
+
+    def test_container_num_at_head_after_pour_single_in_src(self):
+        """After pour check the number of matches is in both src and dest.
+
+        In this test there should be a count of one in the src and two in the
+        dest after the pour.
+        """
+        src = Container(["BLUE", "ORANGE", "RED", "GREEN"])
+        dest = Container(["GREEN", "RED", "GREEN"])
+        src.pour(dest)
+        self.assertEqual(
+            dest.num_matching_head,
+            2,
+            "Two consecutive colours in dest after pour",
+        )
+        self.assertEqual(
+            src.num_matching_head,
+            1,
+            "No consecutive colours in non-empty src after pour",
+        )
+
+    def test_container_num_at_head_after_pour_multiple_in_src(self):
+        """After pour check the number of matches is in both src and dest.
+
+        In this test there should be a count of two in the src and dest after
+        the pour
+        """
+        src = Container(["BLUE", "RED", "RED", "GREEN"])
+        dest = Container(["GREEN", "RED", "GREEN"])
+        src.pour(dest)
+        self.assertEqual(
+            dest.num_matching_head,
+            2,
+            "Two consecutive colours in dest after pour",
+        )
+        self.assertEqual(
+            src.num_matching_head,
+            2,
+            "Two consecutive colours in src after pour",
+        )
+
     @expectedFailure
     def test_container_from_container_with_lower_capacity(self):
         """Test creating a new container from a smaller one.

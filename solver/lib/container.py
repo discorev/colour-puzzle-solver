@@ -153,6 +153,15 @@ class Container(object):
             self.__data = self.__data[:-1]
             target.add(head)
             self.__num_matching_head -= 1
+        if self.__num_matching_head == 0 and not self.is_empty:
+            # There is a new head colour and we need to re-compute the number
+            # of matching items by looping backward through the items
+            self.__num_matching_head = 1
+            for item in reversed(self.__data[:-1]):
+                if item == self.head:
+                    self.__num_matching_head += 1
+                else:
+                    break
         return True
 
     def add(self, next: Item) -> bool:
