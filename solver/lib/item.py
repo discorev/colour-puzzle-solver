@@ -4,7 +4,7 @@ from typing import Union
 from solver.lib.colour import Colour
 
 
-class Item(object):
+class Item:
     """A representation of a coloured thing that is compareable."""
 
     def __init__(self, colour: Union[Colour, str]):
@@ -26,8 +26,7 @@ class Item(object):
         if isinstance(other, str):
             if other in dir(Colour):
                 return self.colour == Colour[other]
-            else:
-                return self.colour == Colour(other)
+            return self.colour == Colour(other)
         return False
 
     def __ne__(self, other):

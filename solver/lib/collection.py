@@ -6,7 +6,7 @@ from solver.lib.move import Move
 from solver.lib.container import Container
 
 
-class ContainerCollection(object):
+class ContainerCollection:
     """Collection of containers."""
 
     def __init__(
