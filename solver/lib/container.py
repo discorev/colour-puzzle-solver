@@ -16,33 +16,56 @@ class Container(object):
         """Create a container with `intial_content` and `capacity`."""
         self._capacity = capacity
         # Ensure this is only ever set to the maximum size
-        self.data: Tuple[Item, ...]
+        self.__data: Tuple[Item, ...]
         if isinstance(initial_content, Container):
             if initial_content.capacity == capacity:
-                self.data = initial_content.data
+                self.__data = initial_content.data
             else:
-                self.data = initial_content.data[:capacity]
+                self.__data = initial_content.data[:capacity]
         else:
             type_map = set(map(type, iter(initial_content)))
             if type_map == {Item}:
                 initial_content = cast(
                     Sequence[Item], initial_content[:capacity]
                 )
-                self.data = tuple(initial_content)
+                self.__data = tuple(initial_content)
             elif type_map == {str}:
                 initial_content = cast(
                     Sequence[str], initial_content[:capacity]
                 )
-                self.data = tuple(
+                self.__data = tuple(
                     Item(value) for value in initial_content[:capacity]
                 )
             elif type_map == set():
-                self.data = tuple()
+                self.__data = tuple()
             else:
                 raise TypeError(
                     f"Unknown initaliser: {initial_content.__class__.__name__}"
                     f": {type_map.__repr__()}"
                 )
+
+        # Setup the number of matching items at the head of the container
+        data_len = len(self.__data)
+        if data_len != 0:
+            self.__num_matching_head = 1
+        else:
+            self.__num_matching_head = 0
+
+        # if there is more than one item, loop backward through the items
+        # counting how many match the head item, break the loop at the
+        # first non-matching item.
+        if data_len > 1:
+            head = self.__data[-1]
+            for item in reversed(self.__data[:-1]):
+                if item == head:
+                    self.__num_matching_head += 1
+                else:
+                    break
+
+    @property
+    def data(self) -> Tuple[Item, ...]:
+        """Non-settable public exposure of the internal data."""
+        return self.__data
 
     @property
     def capacity(self) -> int:
@@ -55,7 +78,7 @@ class Container(object):
 
         Returns true if the container is empty.
         """
-        return len(self.data) == 0
+        return len(self.__data) == 0
 
     @property
     def is_full(self) -> bool:
@@ -63,7 +86,7 @@ class Container(object):
 
         Returns true if the container contains it's maximum number of items.
         """
-        return len(self.data) >= self.capacity
+        return len(self.__data) >= self.capacity
 
     @property
     def is_unique(self) -> bool:
@@ -71,9 +94,9 @@ class Container(object):
 
         Returns true if empty or all contents are the same colour.
         """
-        if len(self.data) == 0:
+        if len(self.__data) == 0:
             return True
-        return len(set(self.data)) == 1
+        return len(set(self.__data)) == 1
 
     @property
     def is_solved(self) -> bool:
@@ -88,11 +111,20 @@ class Container(object):
         """Get the top most item in the container or None if empty."""
         if self.is_empty:
             return None
-        return self.data[-1]
+        return self.__data[-1]
 
-    def test(self, item: Item) -> bool:
+    @property
+    def num_matching_head(self) -> int:
+        """Count of consecutive items that match `self.head`.
+
+        This includes `self.head` so for a non-empty container will
+        always be one and will be zero if the container is empty.
+        """
+        return self.__num_matching_head
+
+    def test(self, item: Optional[Item]) -> bool:
         """Check if `item` can be put in this container."""
-        if self.is_full or (not self.is_empty and self.data[-1] != item):
+        if self.is_full or (not self.is_empty and self.__data[-1] != item):
             return False
         return True
 
@@ -110,15 +142,17 @@ class Container(object):
         if not target.test(head):
             return False
         # Remove the last item from data and add it to target
-        self.data = self.data[:-1]
+        self.__data = self.__data[:-1]
         target.add(head)
+        self.__num_matching_head -= 1
         # Check for matching colours left at head and keep repeating
         # until all have been moved or target is full
         while self.head is not None and self.head == head:
             if target.is_full:
                 break
-            self.data = self.data[:-1]
+            self.__data = self.__data[:-1]
             target.add(head)
+            self.__num_matching_head -= 1
         return True
 
     def add(self, next: Item) -> bool:
@@ -129,9 +163,10 @@ class Container(object):
         if not self.test(next):
             return False
         # Convert data to a list and then back to a tuple to change it
-        data = list(self.data)
+        data = list(self.__data)
         data.append(next)
-        self.data = tuple(data)
+        self.__num_matching_head += 1
+        self.__data = tuple(data)
         return True
 
     def copy(self) -> Container:
@@ -145,9 +180,9 @@ class Container(object):
     def __eq__(self, other: Any) -> bool:
         """Check if this container is equal to other."""
         if isinstance(other, Container):
-            return self.data == other.data
+            return self.__data == other.data
         elif isinstance(other, Sequence):
-            return self.data == other
+            return self.__data == other
         else:
             return False
 
@@ -157,7 +192,7 @@ class Container(object):
 
     def __str__(self) -> str:
         """Get the string representation of this container."""
-        content = [str(content) for content in self.data]
+        content = [str(content) for content in self.__data]
         padding = ""
         if len(content) < self.capacity:
             padding = " " * (self.capacity - len(self))
@@ -165,20 +200,20 @@ class Container(object):
 
     def __repr__(self) -> str:
         """Get a representation of the container."""
-        return f"[{','.join(item.__repr__() for item in self.data)}]"
+        return f"[{','.join(item.__repr__() for item in self.__data)}]"
 
     def __len__(self) -> int:
         """Return the number of items contained."""
-        return len(self.data)
+        return len(self.__data)
 
     def __getitem__(self, idx):
         """Get the `item` at `index`."""
-        return self.data.__getitem__(idx)
+        return self.__data.__getitem__(idx)
 
     def __iter__(self):
         """Iterate over this container's items."""
-        return self.data.__iter__()
+        return self.__data.__iter__()
 
     def __next__(self):
         """Get the next item from this container."""
-        return self.data.__next__()
+        return self.__data.__next__()

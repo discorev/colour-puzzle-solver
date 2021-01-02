@@ -32,7 +32,6 @@ class ContainerCollection(object):
         return all([container.is_solved for container in self.data])
 
     # work out all possible next moves:
-
     def get_moves(self) -> List[Move]:
         """Get a list of possible moves.
 
@@ -89,11 +88,10 @@ class ContainerCollection(object):
         # This tests the top most colour matches.
         # If it does, also check there's enough capacity for the pour.
         # Don't try to put more into a container than it could take
-        src_count = sum(i == src.head for i in src.data)
         dest_space = dest.capacity - len(dest)
         return (
             self.data[move.dest].test(self.data[move.src].head)
-            and src_count <= dest_space
+            and src.num_matching_head <= dest_space
         )
 
     def after(self, move: Move) -> ContainerCollection:
