@@ -37,7 +37,9 @@ def cli(
         )
 
     try:
-        start: ContainerCollection = json2collection.load(puzzle, validate)
+        start: ContainerCollection = json2collection.load(
+            puzzle, reject_invalid=validate
+        )
     except ValueError as err:
         raise click.BadArgumentUsage("Invalid PUZZLE: " + str(err))
 

@@ -6,7 +6,7 @@ from typing import Dict, TextIO, List
 from solver.lib.collection import ContainerCollection
 
 
-def load(file: TextIO, reject_invalid: bool) -> ContainerCollection:
+def load(file: TextIO, *, reject_invalid: bool = False) -> ContainerCollection:
     """Load a json file into a `ContainerCollection`."""
     content: List[List[str]] = json.load(file)
 
