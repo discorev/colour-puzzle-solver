@@ -122,7 +122,24 @@ class TestCli(TestCase):
 
         This test just validates the return code.
         """
-        import os
+        import subprocess
 
-        exit_status = os.system("python -m solver --help")
-        assert exit_status == 0
+        result = subprocess.run(
+            ["/usr/bin/env", "python3", "-m", "solver", "--help"],
+            encoding='ascii',
+            capture_output=True,
+        )
+        self.assertEqual(result.returncode, 0)
+        self.assertTrue(
+            "-a, --algorithm [BFS|DFS]" in result.stdout,
+            "Options should be shown",
+        )
+        self.assertTrue(
+            "-v, --validate" in result.stdout, "Options should be shown"
+        )
+        self.assertTrue(
+            "--verbose" in result.stdout, "Options should be shown"
+        )
+        self.assertTrue(
+            "--help" in result.stdout, "Help text should be printed"
+        )
