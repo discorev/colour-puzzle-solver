@@ -1,12 +1,12 @@
-"""Tests for the item module."""
+"""Tests for the json2collection module."""
 import pathlib
 from unittest import TestCase
 from solver.lib import json2collection
 from solver.lib.collection import ContainerCollection
 
 
-class TestItem(TestCase):
-    """Test cases for the Item class."""
+class TestJson2Collection(TestCase):
+    """Test cases for the json2collection class."""
 
     def test_load_valid(self):
         """Test loading from a valid json file."""
