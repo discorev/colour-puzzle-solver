@@ -375,9 +375,9 @@ class TestContainer(TestCase):
         """Test iterator and next."""
         cont = Container(["RED", "GREEN", "GREY", "BLUE"])
         iterator = iter(cont)
-        next(iterator) == "BLUE"
-        next(iterator) == "GREY"
-        next(iterator) == "GREEN"
-        next(iterator) == "RED"
+        self.assertTrue(next(iterator) == "BLUE")
+        self.assertTrue(next(iterator) == "GREY")
+        self.assertTrue(next(iterator) == "GREEN")
+        self.assertTrue(next(iterator) == "RED")
         with self.assertRaises(StopIteration):
             next(iterator)
