@@ -16,9 +16,19 @@ from solver.lib.search import Option, bfs, dfs
     type=click.Choice(["BFS", "DFS"], case_sensitive=False),
     default="BFS",
     show_default=True,
+    help="Select which algorithm to use to solve the PUZZLE.",
 )
-@click.option("-v", "--verbose", is_flag=True)
-@click.option("--validate", is_flag=True)
+@click.option(
+    "-v",
+    "--validate",
+    is_flag=True,
+    help="Ensure PUZZLE is valid and return an error if not.",
+)
+@click.option(
+    "--verbose",
+    is_flag=True,
+    help="Show additional logging whilst running BFS search",
+)
 @click.argument("puzzle", type=click.File())
 def cli(
     puzzle=None,
