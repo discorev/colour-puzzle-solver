@@ -318,3 +318,66 @@ class TestContainer(TestCase):
         self.assertTrue(new.is_full)
         self.assertTrue(new.is_solved)
         self.assertEqual(original, new)
+
+    def test_container_equals_container(self):
+        """Test creating a new container from a smaller one.
+
+        This test is currently expected to fail as the capacity is not
+        maintained when a container is constructed from another.
+        """
+        cont = Container(["GREEN", "RED", "GREEN"])
+        self.assertEqual(cont, cont, "Container equals itself")
+        self.assertEqual(
+            cont,
+            Container(["GREEN", "RED", "GREEN"]),
+            "Container equals another instance with the same content",
+        )
+        self.assertNotEqual(
+            cont,
+            Container(["RED", "GREEN", "GREEN"]),
+            "Container does not equal another instance with the same content "
+            "in a different order",
+        )
+
+    def test_container_equals_sequence(self):
+        """Test creating a new container from a smaller one.
+
+        This test is currently expected to fail as the capacity is not
+        maintained when a container is constructed from another.
+        """
+        cont = Container(["GREEN", "RED", "GREEN"])
+        self.assertEqual(
+            cont,
+            ["GREEN", "RED", "GREEN"],
+            "Container equals the same sequence",
+        )
+        self.assertNotEqual(
+            cont,
+            ["RED", "GREEN", "GREEN"],
+            "Container does not equal a squence with the same content in a "
+            "different order",
+        )
+
+    def test_container_not_equal_other(self):
+        """Test creating a new container from a smaller one.
+
+        This test is currently expected to fail as the capacity is not
+        maintained when a container is constructed from another.
+        """
+        cont = Container(["GREEN", "RED", "GREEN"])
+        self.assertNotEqual(
+            cont,
+            object(),
+            "Comparison with non-sequence or container should always fail.",
+        )
+
+    def test_container_iter_and_next(self):
+        """Test iterator and next."""
+        cont = Container(["RED", "GREEN", "GREY", "BLUE"])
+        iterator = iter(cont)
+        next(iterator) == "BLUE"
+        next(iterator) == "GREY"
+        next(iterator) == "GREEN"
+        next(iterator) == "RED"
+        with self.assertRaises(StopIteration):
+            next(iterator)

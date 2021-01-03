@@ -189,7 +189,7 @@ class Container:
         if isinstance(other, Container):
             return self.__data == other.data
         if isinstance(other, collections.abc.Sequence):
-            return self.__data == other
+            return self.__data == tuple(other)
         return False
 
     def __ne__(self, other: Any) -> bool:
@@ -218,8 +218,12 @@ class Container:
 
     def __iter__(self):
         """Iterate over this container's items."""
-        return self.__data.__iter__()
+        self.__iter_val = 0
+        return self
 
     def __next__(self):
         """Get the next item from this container."""
-        return self.__data.__next__()
+        if self.__iter_val >= self.capacity:
+            raise StopIteration
+        self.__iter_val += 1
+        return self.__data[-1 * self.__iter_val]
