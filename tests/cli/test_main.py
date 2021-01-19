@@ -126,7 +126,7 @@ class TestCli(TestCase):
 
         result = subprocess.run(
             ["/usr/bin/env", "python3", "-m", "solver", "--help"],
-            encoding='ascii',
+            encoding="ascii",
             capture_output=True,
         )
         self.assertEqual(result.returncode, 0)
