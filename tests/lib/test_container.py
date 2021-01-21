@@ -306,7 +306,6 @@ class TestContainer(TestCase):
             "Two consecutive colours in src after pour",
         )
 
-    @expectedFailure
     def test_container_from_container_with_lower_capacity(self):
         """Test creating a new container from a smaller one.
 

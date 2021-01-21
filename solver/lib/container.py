@@ -12,13 +12,14 @@ class Container:
     def __init__(
         self,
         initial_content: Union[Sequence[Item], Container, Sequence[str]],
-        capacity: int = 4,
+        capacity: Optional[int] = None,
     ):
         """Create a container with `intial_content` and `capacity`."""
-        self._capacity = capacity
+        self._capacity = capacity or 4
         # Ensure this is only ever set to the maximum size
         self.__data: Tuple[Item, ...]
         if isinstance(initial_content, Container):
+            self._capacity = capacity or initial_content.capacity
             self.__data = initial_content.data[:capacity]
         else:
             type_map = set(map(type, iter(initial_content)))
