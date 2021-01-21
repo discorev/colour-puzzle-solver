@@ -1,6 +1,6 @@
 # Colour Sort Solver
-[![Build Status](https://travis-ci.com/discorev/colour-puzzle-solver.svg?branch=master)](https://travis-ci.com/discorev/colour-puzzle-solver)
-[![codecov](https://codecov.io/gh/discorev/colour-puzzle-solver/branch/master/graph/badge.svg?token=IK9OVXNNEC)](https://codecov.io/gh/discorev/colour-puzzle-solver)
+[![Build Status](https://travis-ci.com/discorev/colour-puzzle-solver.svg?branch=main)](https://travis-ci.com/discorev/colour-puzzle-solver)
+[![codecov](https://codecov.io/gh/discorev/colour-puzzle-solver/branch/main/graph/badge.svg?token=IK9OVXNNEC)](https://codecov.io/gh/discorev/colour-puzzle-solver)
 [![CodeFactor](https://www.codefactor.io/repository/github/discorev/colour-puzzle-solver/badge)](https://www.codefactor.io/repository/github/discorev/colour-puzzle-solver)
 
 This project is to develop a solver for popular colour sorting puzzle games such as Ball Sort Puzzle ([App Store](https://apps.apple.com/app/ball-sort-puzzle/id1494648714) | [Google Play](https://play.google.com/store/apps/details?id=com.GMA.Ball.Sort.Puzzle)) and Water Sort Puzzle ([App Store](https://apps.apple.com/app/water-sort-puzzle/id1514542157) | [Android](https://play.google.com/store/apps/details?id=com.gma.water.sort.puzzle))
