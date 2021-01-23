@@ -38,6 +38,11 @@ class TestCli(TestCase):
             "--help" in result.output, "Help text should be printed"
         )
 
+    def test_cli_verbose(self):
+        runner = CliRunner()
+        result = runner.invoke(cli, ["--verbose", "./levels/debug.json"])
+        self.assertEqual(result.exit_code, 0)
+
     def test_cli_bad_puzzle(self):
         """Invoke with a bad puzzle that cannot be solved."""
         runner = CliRunner()
