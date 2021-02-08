@@ -5,6 +5,9 @@ python:
   - "3.9"
   - "3.9-dev"  # 3.9 development branch
   - "nightly"  # nightly build
+matrix:
+  allow_failures:
+    - python: "nightly"
 # command to install dependencies
 install:
   - pip install ".[dev]"
