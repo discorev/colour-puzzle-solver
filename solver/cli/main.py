@@ -4,7 +4,7 @@ from typing import Optional
 
 import click
 
-from solver.lib import json2collection
+from solver.lib import file2collection
 from solver.lib.collection import ContainerCollection
 from solver.lib.search import Option, bfs, dfs
 
@@ -29,7 +29,7 @@ from solver.lib.search import Option, bfs, dfs
     is_flag=True,
     help="Show additional logging whilst running BFS search",
 )
-@click.argument("puzzle", type=click.File())
+@click.argument("puzzle", type=click.Path(exists=True, resolve_path=True))
 def cli(
     puzzle=None,
     algorithm="BFS",
@@ -47,7 +47,7 @@ def cli(
         )
 
     try:
-        start: ContainerCollection = json2collection.load(
+        start: ContainerCollection = file2collection.load(
             puzzle, reject_invalid=validate
         )
     except ValueError as err:
