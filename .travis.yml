@@ -7,6 +7,9 @@ python:
   - "nightly"  # nightly build
 matrix:
   allow_failures:
+    # Allow python development branches to fail
+    # it could be outside of my control
+    - python: "3.9-dev"
     - python: "nightly"
 # command to install dependencies
 install:
