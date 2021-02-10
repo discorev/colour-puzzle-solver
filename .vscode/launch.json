@@ -8,16 +8,29 @@
             "name": "Python: Solver",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/solver/solver.py",
+            "program": "${workspaceFolder}/solver/__main__.py",
             "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}/solver"
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "-a",
+                "dfs",
+                "levels/369.jpeg"
+            ],
         },
         {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "args": [
+                "-a",
+                "dfs",
+                "levels/369.jpeg"
+            ],
+            "env": {
+                "DEBUG": "true"
+            }
         }
     ]
 }
